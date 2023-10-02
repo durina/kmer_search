@@ -43,6 +43,7 @@ pub fn collect_windows( infile: FileBufferHelper, cli: &Cli) -> Vec<String> {
         Some(x) => x,
         None => num_cpus::get()
     };
+    rayon::ThreadPoolBuilder::new().num_threads(nproc).build_global().unwrap();
     analyse_input( &trg_len, infile, dna_filter, nproc)
 }
 
