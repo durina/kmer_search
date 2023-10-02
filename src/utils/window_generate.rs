@@ -21,8 +21,8 @@ use regex::Regex;
 use threadpool::ThreadPool;
 use crate::utils::arg_parse::Cli;
 
-const STANDARD_DNA: &str = "ATGC";
-pub const IUPAC_DNA: &str = "ATGCUWSMKRYBDHVN";
+const STANDARD_DNA: &str = "ATGCatgc";
+pub const IUPAC_DNA: &str = "ATGCUWSMKRYBDHVNatgcuwsmkrybdhvn";
 pub fn collect_windows( infile: FileBufferHelper, cli: &Cli) -> Vec<String> {
     let dna_letters: Vec<char>;
     let dna_filter: Regex;
