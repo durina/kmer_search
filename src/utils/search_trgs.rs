@@ -49,15 +49,16 @@ fn count_genomes(trg_map: AHashMap<String, usize>,
             trace!("Entering header block");
             let temp_genome: String = genome.drain(..).collect();
             let arc_clone = Arc::clone(&arc_trg_map);
-            pool.execute(move || tabulate(temp_genome, arc_clone));
             total_genome_count += 1;
+            pool.execute(move || tabulate(temp_genome, arc_clone));
         } else if IUPAC_DNA.contains(&library.line[0..1]) {
             genome += library.line.trim();
         }
         library.line.clear();
     }
     total_genome_count += 1;
-    tabulate(genome, Arc::clone(&arc_trg_map));
+    let arc_clone = Arc::clone(&arc_trg_map);
+    pool.execute(move || tabulate(genome, arc_clone));
     while pool.queued_count() > 0 {
         sleep(Duration::from_secs(5));
         info!("Queue {}, max {}", pool.queued_count(), pool.max_count());
