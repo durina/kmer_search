@@ -67,7 +67,7 @@ fn main() {
                         Ok(library) => {
                             debug!("Given library is in expected fasta format.\\
                             Proceeding to check the coverage of triggers identified.");
-                            let (total_genomes, window_coverage) =
+                            let (total_genomes, mut window_coverage) =
                                 check_coverage(windows, &cli, library);
                             debug!("Analysed {} genomes in total", total_genomes);
                             if cli.save_trg_genome_tab {
@@ -80,8 +80,9 @@ fn main() {
                                 let total_genome_float = f64::from(total_genomes as u32);
                                 writeln!(save_buffer, "Trigger,Count,%Count")
                                                 .expect("Unable to file");
+                                window_coverage.sort_unstable_by(|(_,a),(_, b)| b.cmp(a));
                                 window_coverage.iter().for_each(|(trg, count)|{
-                                    writeln!(save_buffer, "{},{},{}",
+                                    writeln!(save_buffer, "{}_{}={}",
                                              trg,
                                              count,
                                              f64::from(*count as u32)/total_genome_float*100.0)
@@ -91,7 +92,7 @@ fn main() {
                                 debug!("Printing trigger coverage across library to trace.\\
                                 Enable trace to see output on terminal.");
                                 let total_genome_float = f64::from(total_genomes as u32);
-                                trace!("Trigger,Count,%Count").expect("Unable to file");
+                                trace!("Trigger,Count,%Count");
                                 window_coverage.iter().for_each(|(trg, count)|{
                                 trace!("{},{},{}",
                                              trg,
