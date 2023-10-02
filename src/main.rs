@@ -79,8 +79,10 @@ fn main() {
                                 let mut save_buffer = BufWriter::new(trg_count_save_file);
                                 let total_genome_float = f64::from(total_genomes as u32);
                                 window_coverage.iter().for_each(|(trg, count)|{
-                                    writeln!(save_buffer, "{},{}",
-                                             trg, f64::from(*count as u32)/total_genome_float)
+                                    writeln!(save_buffer, "{},{},{}",
+                                             trg,
+                                             count,
+                                             f64::from(*count as u32)/total_genome_float*100.0)
                                         .expect("Unable to write to file");
                                 });
                             } else {
@@ -88,15 +90,17 @@ fn main() {
                                 Enable trace to see output on terminal.");
                                 let total_genome_float = f64::from(total_genomes as u32);
                                 window_coverage.iter().for_each(|(trg, count)|{
-                                    trace!("{},{}",
-                                             trg, f64::from(*count as u32)/total_genome_float)
+                                    trace!("{},{},{}",
+                                             trg,
+                                             count,
+                                             f64::from(*count as u32)/total_genome_float*100.0)
                                 });
                             }
                         },
                         Err(e) => eprintln!("{}", e)
                     }
                 } else {
-                    "End";
+                    debug!("End: no library specified.");
                 }
             }
             Err(e) => {
