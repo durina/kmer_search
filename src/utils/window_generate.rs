@@ -93,12 +93,12 @@ fn analyse_input(
 
 fn make_windows(genome: String, arc_trg_vec: Arc<Mutex<Vec<String>>>,
                 trg_len: usize) {
-    debug!("Making windows");
+    trace!("Making windows");
     if let Ok(mut trg_vec) = arc_trg_vec.lock() {
         for trg_idx in 0..=(genome.len() - trg_len) {
             let trg = &genome[trg_idx..=trg_idx+trg_len-1];
             trace!("{} - {}", trg, trg.len());
-            trg_vec.push(trg.to_string());
+            trg_vec.push(trg.to_string().to_uppercase());
         }
     }
 }
