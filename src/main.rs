@@ -78,6 +78,8 @@ fn main() {
                                 debug!("Saving results to {}", trg_count_save_file_name);
                                 let mut save_buffer = BufWriter::new(trg_count_save_file);
                                 let total_genome_float = f64::from(total_genomes as u32);
+                                writeln!(save_buffer, "Trigger,Count,%Count")
+                                                .expect("Unable to file");
                                 window_coverage.iter().for_each(|(trg, count)|{
                                     writeln!(save_buffer, "{},{},{}",
                                              trg,
@@ -89,8 +91,9 @@ fn main() {
                                 debug!("Printing trigger coverage across library to trace.\\
                                 Enable trace to see output on terminal.");
                                 let total_genome_float = f64::from(total_genomes as u32);
+                                trace!("Trigger,Count,%Count").expect("Unable to file");
                                 window_coverage.iter().for_each(|(trg, count)|{
-                                    trace!("{},{},{}",
+                                trace!("{},{},{}",
                                              trg,
                                              count,
                                              f64::from(*count as u32)/total_genome_float*100.0)
