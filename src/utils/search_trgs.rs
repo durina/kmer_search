@@ -75,7 +75,7 @@ fn tabulate(genome: String, trg_map: Arc<Mutex<AHashMap<String,usize>>>) {
     if let Ok(mut trg_map) = trg_map.lock() {
         trg_map.par_iter_mut().for_each(
             |(trg, trg_count)| {
-                if genome.find(trg).is_some() {
+                if genome.to_uppercase().find(trg).is_some() {
                     *trg_count += 1;
                 }
             }
