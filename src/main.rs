@@ -80,7 +80,6 @@ fn main() {
                                 let total_genome_float = f64::from(total_genomes as u32);
                                 writeln!(save_buffer, "Trigger,Count,%Count")
                                                 .expect("Unable to file");
-                                window_coverage.sort_unstable_by(|(_,a),(_, b)| b.cmp(a));
                                 window_coverage.iter().for_each(|(trg, count)|{
                                     writeln!(save_buffer, "{}_{}={}",
                                              trg,
