@@ -65,9 +65,9 @@ fn count_genomes(trg_map: AHashMap<String, usize>,
     }
     pool.join();
     let trg_map = Arc::try_unwrap(arc_trg_map)
-        .unwrap()
+        .expect("Arc failed to unwrap")
         .into_inner()
-        .unwrap();
+        .expect("Mutex failed to unwrap");
     let trg_vec: Vec<(String, usize)> = trg_map.into_iter().collect();
     (total_genome_count, trg_vec)
 }
